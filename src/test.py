@@ -1,5 +1,5 @@
 import unittest
-from types_pb2 import Transaction
+from aelf import Transaction
 from aelf import AElf
 
 
@@ -14,7 +14,7 @@ class AElfTest(unittest.TestCase):
     def test_chain_api(self):
         chain_status = self.chain.get_chain_status()
         print('# get_chain_status', chain_status)
-        self.assertTrue(chain_status[0] > 0)
+        self.assertTrue(chain_status['BestChainHeight'] > 0)
 
     def test_block_api(self):
         block_height = self.chain.get_block_height()

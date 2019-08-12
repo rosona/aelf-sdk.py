@@ -4,7 +4,7 @@ import base58
 import requests
 from coincurve import PrivateKey
 
-from types_pb2 import Transaction, Hash, Address, MinerList, StringInput, CandidateVote, PublicKeysList
+from aelf.types_pb2 import Transaction, Hash, Address, MinerList, StringInput, CandidateVote, PublicKeysList
 
 
 class AElf(object):
@@ -29,11 +29,7 @@ class AElf(object):
         Get chain status
         :return: chain status
         """
-        response = requests.get('%s/blockchain/chainStatus' % self._url, headers=self._get_request_header)
-        chain_status = response.json()
-        best_chain_hash = chain_status['BestChainHash']
-        best_chain_height = chain_status['BestChainHeight']
-        return best_chain_height, best_chain_hash
+        return requests.get('%s/blockchain/chainStatus' % self._url, headers=self._get_request_header).json()
 
     def get_block_height(self):
         """
@@ -297,7 +293,10 @@ class AElf(object):
         """
         assert self._private_key is not None, 'To execute transaction, please initialize AElf with private key.'
 
-        best_chain_height, best_chain_hash = self.get_chain_status()
+        chain_status = self.get_chain_status()
+        best_chain_hash = chain_status['BestChainHash']
+        best_chain_height = chain_status['BestChainHeight']
+
         transaction = Transaction()
         transaction.From.CopyFrom(self._get_from_address(self._private_key.public_key.format(compressed=False)))
         transaction.To.CopyFrom(to_address)
