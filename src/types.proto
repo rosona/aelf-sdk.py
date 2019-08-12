@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message StringInput {
+    string StringValue = 1;
+}
+
+message MinerList {
+    repeated bytes public_keys = 1;
+}
+
+message Hash {
+    bytes Value = 1;
+}
+
+message Address {
+    bytes Value = 1;
+}
+
+message Transaction {
+    Address From = 1;
+    Address To = 2;
+    int64 RefBlockNumber = 3;
+    bytes RefBlockPrefix = 4;
+    string MethodName = 5;
+    bytes Params = 6;
+    bytes Signature = 10000;
+}
+
+message ElectionVotingRecord {
+    Address voter = 1;
+    string candidate = 2;
+    sint64 amount = 3;
+    sint64 term_number = 4;
+    Hash vote_id = 5;
+    sint64 lock_time = 7;
+    google.protobuf.Timestamp unlock_timestamp = 10;
+    google.protobuf.Timestamp withdraw_timestamp = 11;
+    google.protobuf.Timestamp vote_timestamp = 12;
+    bool is_withdrawn = 13;
+}
+
+message ElectorVote {
+    repeated Hash active_voting_record_ids = 1;
+    repeated Hash withdrawn_voting_record_ids = 2;
+    sint64 active_voted_votes_amount = 3;
+    sint64 all_voted_votes_amount = 4;
+    repeated ElectionVotingRecord active_voting_records = 5;
+    repeated ElectionVotingRecord withdrawn_votes_records = 6;
+    bytes public_key = 7;
+}
+
+message CandidateVote {
+    repeated Hash obtained_active_voting_record_ids = 1;
+    repeated Hash obtained_withdrawn_voting_record_ids = 2;
+    sint64 obtained_active_voted_votes_amount = 3;
+    sint64 all_obtained_voted_votes_amount = 4;
+    repeated ElectionVotingRecord obtained_active_voting_records = 5;
+    repeated ElectionVotingRecord obtained_withdrawn_votes_records = 6;
+    bytes public_key = 7;
+}
+
+message PublicKeysList {
+    repeated bytes value = 1;
+}
