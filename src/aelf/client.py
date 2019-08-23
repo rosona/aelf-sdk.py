@@ -119,11 +119,15 @@ class AElf(object):
     def execute_transaction(self, transaction):
         """
         Execute transaction
-        :param transaction: transaction hex string
+        :param transaction: Transaction object or transaction hex string
         :return: executed result
         """
+        if isinstance(transaction, Transaction):
+            transaction = transaction.SerializePartialToString().hex()
+
         response = requests.post('%s/blockchain/executeTransaction' % self._url,
-                                 json={'RawTransaction': transaction}, headers=self._post_request_header)
+                                 json={'RawTransaction': transaction},
+                                 headers=self._post_request_header)
         return response.content
 
     def execute_raw_transaction(self, raw_transaction):
@@ -192,13 +196,21 @@ class AElf(object):
         """
         return requests.get('%s/blockchain/taskQueueStatus' % self._url, headers=self._get_request_header).json()
 
+    def get_merkle_path(self, transaction_id):
+        """
+        Get task queue status
+        :return: task queue status
+        """
+        api = '%s/blockChain/merklePathByTransactionId?transactionId=%s' % (self._url, transaction_id)
+        return requests.get(api, headers=self._get_request_header).json()
+
     def get_current_miners(self):
         """
         Get current miners
         :return: current miners
         """
         transaction = self._get_miners_transaction()
-        raw_miner_list = self.execute_transaction(transaction.SerializePartialToString().hex())
+        raw_miner_list = self.execute_transaction(transaction)
 
         current_miners = []
         miner_list = MinerList()
@@ -233,7 +245,7 @@ class AElf(object):
         :return: contract address object
         """
         transaction = self._get_contract_address_transaction(contract_name)
-        raw_address_hex = self.execute_transaction(transaction.SerializePartialToString().hex())
+        raw_address_hex = self.execute_transaction(transaction)
         to_address = Address()
         to_address.ParseFromString(bytes.fromhex(raw_address_hex.decode()))
         return to_address
@@ -254,7 +266,7 @@ class AElf(object):
         """
         candidates = []
         transaction = self._get_candidates_transaction()
-        raw_candidates = self.execute_transaction(transaction.SerializePartialToString().hex())
+        raw_candidates = self.execute_transaction(transaction)
         public_key_list = PublicKeysList()
         public_key_list.ParseFromString(bytes.fromhex(raw_candidates.decode()))
         for public_key in public_key_list.value:
@@ -274,7 +286,7 @@ class AElf(object):
         vote_info = []
         for public_key in public_keys:
             transaction = self._get_candidate_vote_transaction(public_key)
-            raw_candidate_vote = self.execute_transaction(transaction.SerializePartialToString().hex())
+            raw_candidate_vote = self.execute_transaction(transaction)
             candidate_vote = CandidateVote()
             candidate_vote.ParseFromString(bytes.fromhex(raw_candidate_vote.decode()))
             vote_info.append({
@@ -347,7 +359,7 @@ class AElf(object):
         """ get candidates transaction
         """
         transaction = self._get_contract_address_transaction('AElf.ContractNames.Election')
-        address = self.execute_transaction(transaction.SerializePartialToString().hex())
+        address = self.execute_transaction(transaction)
         to_address = Address()
         to_address.ParseFromString(bytes.fromhex(address.decode()))
         return self.build_transaction(to_address, 'GetCandidates')
@@ -356,7 +368,7 @@ class AElf(object):
         """ get candidate vote transaction
         """
         transaction = self._get_contract_address_transaction('AElf.ContractNames.Election')
-        address = self.execute_transaction(transaction.SerializePartialToString().hex())
+        address = self.execute_transaction(transaction)
         to_address = Address()
         to_address.ParseFromString(bytes.fromhex(address.decode()))
         params = StringInput()
@@ -367,7 +379,7 @@ class AElf(object):
         """ build get miners transaction
         """
         transaction = self._get_contract_address_transaction('AElf.ContractNames.Consensus')
-        raw_address_hex = self.execute_transaction(transaction.SerializePartialToString().hex())
+        raw_address_hex = self.execute_transaction(transaction)
         to_address = Address()
         to_address.ParseFromString(bytes.fromhex(raw_address_hex.decode()))
         return self.build_transaction(to_address, 'GetCurrentMinerList')

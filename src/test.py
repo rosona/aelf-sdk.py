@@ -36,6 +36,8 @@ class AElfTest(unittest.TestCase):
         self.assertTrue(transaction_result['Status'] == 'MINED')
         transaction_results = self.chain.get_transaction_results(block['BlockHash'])
         print('# get_transaction_results', transaction_results)
+        merkle_path = self.chain.get_merkle_path(block['Body']['Transactions'][0])
+        self.assertTrue(isinstance(merkle_path['MerklePathNodes'], list))
 
     def test_raw_transaction_api(self):
         transaction = {
