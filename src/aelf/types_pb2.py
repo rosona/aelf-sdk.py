@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0btypes.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\"\n\x0bStringInput\x12\x13\n\x0bStringValue\x18\x01 \x01(\t\" \n\tMinerList\x12\x13\n\x0bpublic_keys\x18\x01 \x03(\x0c\"\x15\n\x04Hash\x12\r\n\x05Value\x18\x01 \x01(\x0c\"\x18\n\x07\x41\x64\x64ress\x12\r\n\x05Value\x18\x01 \x01(\x0c\"\xa3\x01\n\x0bTransaction\x12\x16\n\x04\x46rom\x18\x01 \x01(\x0b\x32\x08.Address\x12\x14\n\x02To\x18\x02 \x01(\x0b\x32\x08.Address\x12\x16\n\x0eRefBlockNumber\x18\x03 \x01(\x03\x12\x16\n\x0eRefBlockPrefix\x18\x04 \x01(\x0c\x12\x12\n\nMethodName\x18\x05 \x01(\t\x12\x0e\n\x06Params\x18\x06 \x01(\x0c\x12\x12\n\tSignature\x18\x90N \x01(\x0c\"\xca\x02\n\x14\x45lectionVotingRecord\x12\x17\n\x05voter\x18\x01 \x01(\x0b\x32\x08.Address\x12\x11\n\tcandidate\x18\x02 \x01(\t\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x12\x12\x13\n\x0bterm_number\x18\x04 \x01(\x12\x12\x16\n\x07vote_id\x18\x05 \x01(\x0b\x32\x05.Hash\x12\x11\n\tlock_time\x18\x07 \x01(\x12\x12\x34\n\x10unlock_timestamp\x18\n \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x36\n\x12withdraw_timestamp\x18\x0b \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x32\n\x0evote_timestamp\x18\x0c \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x14\n\x0cis_withdrawn\x18\r \x01(\x08\"\xa7\x02\n\x0b\x45lectorVote\x12\'\n\x18\x61\x63tive_voting_record_ids\x18\x01 \x03(\x0b\x32\x05.Hash\x12*\n\x1bwithdrawn_voting_record_ids\x18\x02 \x03(\x0b\x32\x05.Hash\x12!\n\x19\x61\x63tive_voted_votes_amount\x18\x03 \x01(\x12\x12\x1e\n\x16\x61ll_voted_votes_amount\x18\x04 \x01(\x12\x12\x34\n\x15\x61\x63tive_voting_records\x18\x05 \x03(\x0b\x32\x15.ElectionVotingRecord\x12\x36\n\x17withdrawn_votes_records\x18\x06 \x03(\x0b\x32\x15.ElectionVotingRecord\x12\x12\n\npublic_key\x18\x07 \x01(\x0c\"\xdf\x02\n\rCandidateVote\x12\x30\n!obtained_active_voting_record_ids\x18\x01 \x03(\x0b\x32\x05.Hash\x12\x33\n$obtained_withdrawn_voting_record_ids\x18\x02 \x03(\x0b\x32\x05.Hash\x12*\n\"obtained_active_voted_votes_amount\x18\x03 \x01(\x12\x12\'\n\x1f\x61ll_obtained_voted_votes_amount\x18\x04 \x01(\x12\x12=\n\x1eobtained_active_voting_records\x18\x05 \x03(\x0b\x32\x15.ElectionVotingRecord\x12?\n obtained_withdrawn_votes_records\x18\x06 \x03(\x0b\x32\x15.ElectionVotingRecord\x12\x12\n\npublic_key\x18\x07 \x01(\x0c\"\x1f\n\x0ePublicKeysList\x12\r\n\x05value\x18\x01 \x03(\x0c\x62\x06proto3')
+  serialized_pb=_b('\n\x0btypes.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"#\n\x0bStringInput\x12\x14\n\x0cstring_value\x18\x01 \x01(\t\" \n\tMinerList\x12\x13\n\x0bpublic_keys\x18\x01 \x03(\x0c\"\x15\n\x04Hash\x12\r\n\x05value\x18\x01 \x01(\x0c\"\x18\n\x07\x41\x64\x64ress\x12\r\n\x05value\x18\x01 \x01(\x0c\"\xb8\x01\n\x0bTransaction\x12\x1e\n\x0c\x66rom_address\x18\x01 \x01(\x0b\x32\x08.Address\x12\x1c\n\nto_address\x18\x02 \x01(\x0b\x32\x08.Address\x12\x18\n\x10ref_block_number\x18\x03 \x01(\x03\x12\x18\n\x10ref_block_prefix\x18\x04 \x01(\x0c\x12\x13\n\x0bmethod_name\x18\x05 \x01(\t\x12\x0e\n\x06params\x18\x06 \x01(\x0c\x12\x12\n\tsignature\x18\x90N \x01(\x0c\"\xca\x02\n\x14\x45lectionVotingRecord\x12\x17\n\x05voter\x18\x01 \x01(\x0b\x32\x08.Address\x12\x11\n\tcandidate\x18\x02 \x01(\t\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x12\x12\x13\n\x0bterm_number\x18\x04 \x01(\x12\x12\x16\n\x07vote_id\x18\x05 \x01(\x0b\x32\x05.Hash\x12\x11\n\tlock_time\x18\x07 \x01(\x12\x12\x34\n\x10unlock_timestamp\x18\n \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x36\n\x12withdraw_timestamp\x18\x0b \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x32\n\x0evote_timestamp\x18\x0c \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x14\n\x0cis_withdrawn\x18\r \x01(\x08\"\xa7\x02\n\x0b\x45lectorVote\x12\'\n\x18\x61\x63tive_voting_record_ids\x18\x01 \x03(\x0b\x32\x05.Hash\x12*\n\x1bwithdrawn_voting_record_ids\x18\x02 \x03(\x0b\x32\x05.Hash\x12!\n\x19\x61\x63tive_voted_votes_amount\x18\x03 \x01(\x12\x12\x1e\n\x16\x61ll_voted_votes_amount\x18\x04 \x01(\x12\x12\x34\n\x15\x61\x63tive_voting_records\x18\x05 \x03(\x0b\x32\x15.ElectionVotingRecord\x12\x36\n\x17withdrawn_votes_records\x18\x06 \x03(\x0b\x32\x15.ElectionVotingRecord\x12\x12\n\npublic_key\x18\x07 \x01(\x0c\"\xdf\x02\n\rCandidateVote\x12\x30\n!obtained_active_voting_record_ids\x18\x01 \x03(\x0b\x32\x05.Hash\x12\x33\n$obtained_withdrawn_voting_record_ids\x18\x02 \x03(\x0b\x32\x05.Hash\x12*\n\"obtained_active_voted_votes_amount\x18\x03 \x01(\x12\x12\'\n\x1f\x61ll_obtained_voted_votes_amount\x18\x04 \x01(\x12\x12=\n\x1eobtained_active_voting_records\x18\x05 \x03(\x0b\x32\x15.ElectionVotingRecord\x12?\n obtained_withdrawn_votes_records\x18\x06 \x03(\x0b\x32\x15.ElectionVotingRecord\x12\x12\n\npublic_key\x18\x07 \x01(\x0c\"\x1f\n\x0ePublicKeysList\x12\r\n\x05value\x18\x01 \x03(\x0c\"9\n\x17\x43ontractDeploymentInput\x12\x10\n\x08\x63\x61tegory\x18\x01 \x01(\x11\x12\x0c\n\x04\x63ode\x18\x02 \x01(\x0c\">\n\x13\x43ontractUpdateInput\x12\x19\n\x07\x61\x64\x64ress\x18\x01 \x01(\x0b\x32\x08.Address\x12\x0c\n\x04\x63ode\x18\x02 \x01(\x0c\"\x8a\x01\n\x17\x43rossChainTransferInput\x12\x14\n\x02to\x18\x01 \x01(\x0b\x32\x08.Address\x12\x0e\n\x06symbol\x18\x02 \x01(\t\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x12\x12\x0c\n\x04memo\x18\x04 \x01(\t\x12\x13\n\x0bto_chain_id\x18\x05 \x01(\x05\x12\x16\n\x0eissue_chain_id\x18\x06 \x01(\x05\"8\n\nMerklePath\x12*\n\x11merkle_path_nodes\x18\x01 \x03(\x0b\x32\x0f.MerklePathNode\"A\n\x0eMerklePathNode\x12\x13\n\x04hash\x18\x01 \x01(\x0b\x32\x05.Hash\x12\x1a\n\x12is_left_child_node\x18\x02 \x01(\x08\"\x97\x01\n\x1b\x43rossChainReceiveTokenInput\x12\x15\n\rfrom_chain_id\x18\x01 \x01(\x05\x12\x1b\n\x13parent_chain_height\x18\x02 \x01(\x03\x12\"\n\x1atransfer_transaction_bytes\x18\x03 \x01(\x0c\x12 \n\x0bmerkle_path\x18\x04 \x01(\x0b\x32\x0b.MerklePath\"#\n\x11GetTokenInfoInput\x12\x0e\n\x06symbol\x18\x01 \x01(\t\":\n\x0fGetBalanceInput\x12\x0e\n\x06symbol\x18\x01 \x01(\t\x12\x17\n\x05owner\x18\x02 \x01(\x0b\x32\x08.Address\"L\n\x10GetBalanceOutput\x12\x0e\n\x06symbol\x18\x01 \x01(\t\x12\x17\n\x05owner\x18\x02 \x01(\x0b\x32\x08.Address\x12\x0f\n\x07\x62\x61lance\x18\x03 \x01(\x12\"P\n\nIssueInput\x12\x0e\n\x06symbol\x18\x01 \x01(\t\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x12\x12\x0c\n\x04memo\x18\x03 \x01(\t\x12\x14\n\x02to\x18\x04 \x01(\x0b\x32\x08.Address\"S\n\rTransferInput\x12\x14\n\x02to\x18\x01 \x01(\x0b\x32\x08.Address\x12\x0e\n\x06symbol\x18\x02 \x01(\t\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x12\x12\x0c\n\x04memo\x18\x04 \x01(\tb\x06proto3')
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -36,7 +36,7 @@ _STRINGINPUT = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='StringValue', full_name='StringInput.StringValue', index=0,
+      name='string_value', full_name='StringInput.string_value', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -55,7 +55,7 @@ _STRINGINPUT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=48,
-  serialized_end=82,
+  serialized_end=83,
 )
 
 
@@ -85,8 +85,8 @@ _MINERLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=84,
-  serialized_end=116,
+  serialized_start=85,
+  serialized_end=117,
 )
 
 
@@ -98,7 +98,7 @@ _HASH = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='Value', full_name='Hash.Value', index=0,
+      name='value', full_name='Hash.value', index=0,
       number=1, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -116,8 +116,8 @@ _HASH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=118,
-  serialized_end=139,
+  serialized_start=119,
+  serialized_end=140,
 )
 
 
@@ -129,7 +129,7 @@ _ADDRESS = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='Value', full_name='Address.Value', index=0,
+      name='value', full_name='Address.value', index=0,
       number=1, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -147,8 +147,8 @@ _ADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=141,
-  serialized_end=165,
+  serialized_start=142,
+  serialized_end=166,
 )
 
 
@@ -160,49 +160,49 @@ _TRANSACTION = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='From', full_name='Transaction.From', index=0,
+      name='from_address', full_name='Transaction.from_address', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='To', full_name='Transaction.To', index=1,
+      name='to_address', full_name='Transaction.to_address', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='RefBlockNumber', full_name='Transaction.RefBlockNumber', index=2,
+      name='ref_block_number', full_name='Transaction.ref_block_number', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='RefBlockPrefix', full_name='Transaction.RefBlockPrefix', index=3,
+      name='ref_block_prefix', full_name='Transaction.ref_block_prefix', index=3,
       number=4, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='MethodName', full_name='Transaction.MethodName', index=4,
+      name='method_name', full_name='Transaction.method_name', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Params', full_name='Transaction.Params', index=5,
+      name='params', full_name='Transaction.params', index=5,
       number=6, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='Signature', full_name='Transaction.Signature', index=6,
+      name='signature', full_name='Transaction.signature', index=6,
       number=10000, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -220,8 +220,8 @@ _TRANSACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=168,
-  serialized_end=331,
+  serialized_start=169,
+  serialized_end=353,
 )
 
 
@@ -314,8 +314,8 @@ _ELECTIONVOTINGRECORD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=334,
-  serialized_end=664,
+  serialized_start=356,
+  serialized_end=686,
 )
 
 
@@ -387,8 +387,8 @@ _ELECTORVOTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=667,
-  serialized_end=962,
+  serialized_start=689,
+  serialized_end=984,
 )
 
 
@@ -460,8 +460,8 @@ _CANDIDATEVOTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=965,
-  serialized_end=1316,
+  serialized_start=987,
+  serialized_end=1338,
 )
 
 
@@ -491,12 +491,493 @@ _PUBLICKEYSLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1318,
-  serialized_end=1349,
+  serialized_start=1340,
+  serialized_end=1371,
 )
 
-_TRANSACTION.fields_by_name['From'].message_type = _ADDRESS
-_TRANSACTION.fields_by_name['To'].message_type = _ADDRESS
+
+_CONTRACTDEPLOYMENTINPUT = _descriptor.Descriptor(
+  name='ContractDeploymentInput',
+  full_name='ContractDeploymentInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='category', full_name='ContractDeploymentInput.category', index=0,
+      number=1, type=17, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='code', full_name='ContractDeploymentInput.code', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1373,
+  serialized_end=1430,
+)
+
+
+_CONTRACTUPDATEINPUT = _descriptor.Descriptor(
+  name='ContractUpdateInput',
+  full_name='ContractUpdateInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='address', full_name='ContractUpdateInput.address', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='code', full_name='ContractUpdateInput.code', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1432,
+  serialized_end=1494,
+)
+
+
+_CROSSCHAINTRANSFERINPUT = _descriptor.Descriptor(
+  name='CrossChainTransferInput',
+  full_name='CrossChainTransferInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='to', full_name='CrossChainTransferInput.to', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='symbol', full_name='CrossChainTransferInput.symbol', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='amount', full_name='CrossChainTransferInput.amount', index=2,
+      number=3, type=18, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='memo', full_name='CrossChainTransferInput.memo', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='to_chain_id', full_name='CrossChainTransferInput.to_chain_id', index=4,
+      number=5, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='issue_chain_id', full_name='CrossChainTransferInput.issue_chain_id', index=5,
+      number=6, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1497,
+  serialized_end=1635,
+)
+
+
+_MERKLEPATH = _descriptor.Descriptor(
+  name='MerklePath',
+  full_name='MerklePath',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='merkle_path_nodes', full_name='MerklePath.merkle_path_nodes', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1637,
+  serialized_end=1693,
+)
+
+
+_MERKLEPATHNODE = _descriptor.Descriptor(
+  name='MerklePathNode',
+  full_name='MerklePathNode',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='hash', full_name='MerklePathNode.hash', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='is_left_child_node', full_name='MerklePathNode.is_left_child_node', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1695,
+  serialized_end=1760,
+)
+
+
+_CROSSCHAINRECEIVETOKENINPUT = _descriptor.Descriptor(
+  name='CrossChainReceiveTokenInput',
+  full_name='CrossChainReceiveTokenInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='from_chain_id', full_name='CrossChainReceiveTokenInput.from_chain_id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='parent_chain_height', full_name='CrossChainReceiveTokenInput.parent_chain_height', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='transfer_transaction_bytes', full_name='CrossChainReceiveTokenInput.transfer_transaction_bytes', index=2,
+      number=3, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='merkle_path', full_name='CrossChainReceiveTokenInput.merkle_path', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1763,
+  serialized_end=1914,
+)
+
+
+_GETTOKENINFOINPUT = _descriptor.Descriptor(
+  name='GetTokenInfoInput',
+  full_name='GetTokenInfoInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='symbol', full_name='GetTokenInfoInput.symbol', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1916,
+  serialized_end=1951,
+)
+
+
+_GETBALANCEINPUT = _descriptor.Descriptor(
+  name='GetBalanceInput',
+  full_name='GetBalanceInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='symbol', full_name='GetBalanceInput.symbol', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='owner', full_name='GetBalanceInput.owner', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1953,
+  serialized_end=2011,
+)
+
+
+_GETBALANCEOUTPUT = _descriptor.Descriptor(
+  name='GetBalanceOutput',
+  full_name='GetBalanceOutput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='symbol', full_name='GetBalanceOutput.symbol', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='owner', full_name='GetBalanceOutput.owner', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='balance', full_name='GetBalanceOutput.balance', index=2,
+      number=3, type=18, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2013,
+  serialized_end=2089,
+)
+
+
+_ISSUEINPUT = _descriptor.Descriptor(
+  name='IssueInput',
+  full_name='IssueInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='symbol', full_name='IssueInput.symbol', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='amount', full_name='IssueInput.amount', index=1,
+      number=2, type=18, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='memo', full_name='IssueInput.memo', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='to', full_name='IssueInput.to', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2091,
+  serialized_end=2171,
+)
+
+
+_TRANSFERINPUT = _descriptor.Descriptor(
+  name='TransferInput',
+  full_name='TransferInput',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='to', full_name='TransferInput.to', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='symbol', full_name='TransferInput.symbol', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='amount', full_name='TransferInput.amount', index=2,
+      number=3, type=18, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='memo', full_name='TransferInput.memo', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2173,
+  serialized_end=2256,
+)
+
+_TRANSACTION.fields_by_name['from_address'].message_type = _ADDRESS
+_TRANSACTION.fields_by_name['to_address'].message_type = _ADDRESS
 _ELECTIONVOTINGRECORD.fields_by_name['voter'].message_type = _ADDRESS
 _ELECTIONVOTINGRECORD.fields_by_name['vote_id'].message_type = _HASH
 _ELECTIONVOTINGRECORD.fields_by_name['unlock_timestamp'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
@@ -510,6 +991,15 @@ _CANDIDATEVOTE.fields_by_name['obtained_active_voting_record_ids'].message_type 
 _CANDIDATEVOTE.fields_by_name['obtained_withdrawn_voting_record_ids'].message_type = _HASH
 _CANDIDATEVOTE.fields_by_name['obtained_active_voting_records'].message_type = _ELECTIONVOTINGRECORD
 _CANDIDATEVOTE.fields_by_name['obtained_withdrawn_votes_records'].message_type = _ELECTIONVOTINGRECORD
+_CONTRACTUPDATEINPUT.fields_by_name['address'].message_type = _ADDRESS
+_CROSSCHAINTRANSFERINPUT.fields_by_name['to'].message_type = _ADDRESS
+_MERKLEPATH.fields_by_name['merkle_path_nodes'].message_type = _MERKLEPATHNODE
+_MERKLEPATHNODE.fields_by_name['hash'].message_type = _HASH
+_CROSSCHAINRECEIVETOKENINPUT.fields_by_name['merkle_path'].message_type = _MERKLEPATH
+_GETBALANCEINPUT.fields_by_name['owner'].message_type = _ADDRESS
+_GETBALANCEOUTPUT.fields_by_name['owner'].message_type = _ADDRESS
+_ISSUEINPUT.fields_by_name['to'].message_type = _ADDRESS
+_TRANSFERINPUT.fields_by_name['to'].message_type = _ADDRESS
 DESCRIPTOR.message_types_by_name['StringInput'] = _STRINGINPUT
 DESCRIPTOR.message_types_by_name['MinerList'] = _MINERLIST
 DESCRIPTOR.message_types_by_name['Hash'] = _HASH
@@ -519,70 +1009,158 @@ DESCRIPTOR.message_types_by_name['ElectionVotingRecord'] = _ELECTIONVOTINGRECORD
 DESCRIPTOR.message_types_by_name['ElectorVote'] = _ELECTORVOTE
 DESCRIPTOR.message_types_by_name['CandidateVote'] = _CANDIDATEVOTE
 DESCRIPTOR.message_types_by_name['PublicKeysList'] = _PUBLICKEYSLIST
+DESCRIPTOR.message_types_by_name['ContractDeploymentInput'] = _CONTRACTDEPLOYMENTINPUT
+DESCRIPTOR.message_types_by_name['ContractUpdateInput'] = _CONTRACTUPDATEINPUT
+DESCRIPTOR.message_types_by_name['CrossChainTransferInput'] = _CROSSCHAINTRANSFERINPUT
+DESCRIPTOR.message_types_by_name['MerklePath'] = _MERKLEPATH
+DESCRIPTOR.message_types_by_name['MerklePathNode'] = _MERKLEPATHNODE
+DESCRIPTOR.message_types_by_name['CrossChainReceiveTokenInput'] = _CROSSCHAINRECEIVETOKENINPUT
+DESCRIPTOR.message_types_by_name['GetTokenInfoInput'] = _GETTOKENINFOINPUT
+DESCRIPTOR.message_types_by_name['GetBalanceInput'] = _GETBALANCEINPUT
+DESCRIPTOR.message_types_by_name['GetBalanceOutput'] = _GETBALANCEOUTPUT
+DESCRIPTOR.message_types_by_name['IssueInput'] = _ISSUEINPUT
+DESCRIPTOR.message_types_by_name['TransferInput'] = _TRANSFERINPUT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-StringInput = _reflection.GeneratedProtocolMessageType('StringInput', (_message.Message,), dict(
-  DESCRIPTOR = _STRINGINPUT,
-  __module__ = 'types_pb2'
+StringInput = _reflection.GeneratedProtocolMessageType('StringInput', (_message.Message,), {
+  'DESCRIPTOR' : _STRINGINPUT,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:StringInput)
-  ))
+  })
 _sym_db.RegisterMessage(StringInput)
 
-MinerList = _reflection.GeneratedProtocolMessageType('MinerList', (_message.Message,), dict(
-  DESCRIPTOR = _MINERLIST,
-  __module__ = 'types_pb2'
+MinerList = _reflection.GeneratedProtocolMessageType('MinerList', (_message.Message,), {
+  'DESCRIPTOR' : _MINERLIST,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:MinerList)
-  ))
+  })
 _sym_db.RegisterMessage(MinerList)
 
-Hash = _reflection.GeneratedProtocolMessageType('Hash', (_message.Message,), dict(
-  DESCRIPTOR = _HASH,
-  __module__ = 'types_pb2'
+Hash = _reflection.GeneratedProtocolMessageType('Hash', (_message.Message,), {
+  'DESCRIPTOR' : _HASH,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:Hash)
-  ))
+  })
 _sym_db.RegisterMessage(Hash)
 
-Address = _reflection.GeneratedProtocolMessageType('Address', (_message.Message,), dict(
-  DESCRIPTOR = _ADDRESS,
-  __module__ = 'types_pb2'
+Address = _reflection.GeneratedProtocolMessageType('Address', (_message.Message,), {
+  'DESCRIPTOR' : _ADDRESS,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:Address)
-  ))
+  })
 _sym_db.RegisterMessage(Address)
 
-Transaction = _reflection.GeneratedProtocolMessageType('Transaction', (_message.Message,), dict(
-  DESCRIPTOR = _TRANSACTION,
-  __module__ = 'types_pb2'
+Transaction = _reflection.GeneratedProtocolMessageType('Transaction', (_message.Message,), {
+  'DESCRIPTOR' : _TRANSACTION,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:Transaction)
-  ))
+  })
 _sym_db.RegisterMessage(Transaction)
 
-ElectionVotingRecord = _reflection.GeneratedProtocolMessageType('ElectionVotingRecord', (_message.Message,), dict(
-  DESCRIPTOR = _ELECTIONVOTINGRECORD,
-  __module__ = 'types_pb2'
+ElectionVotingRecord = _reflection.GeneratedProtocolMessageType('ElectionVotingRecord', (_message.Message,), {
+  'DESCRIPTOR' : _ELECTIONVOTINGRECORD,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:ElectionVotingRecord)
-  ))
+  })
 _sym_db.RegisterMessage(ElectionVotingRecord)
 
-ElectorVote = _reflection.GeneratedProtocolMessageType('ElectorVote', (_message.Message,), dict(
-  DESCRIPTOR = _ELECTORVOTE,
-  __module__ = 'types_pb2'
+ElectorVote = _reflection.GeneratedProtocolMessageType('ElectorVote', (_message.Message,), {
+  'DESCRIPTOR' : _ELECTORVOTE,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:ElectorVote)
-  ))
+  })
 _sym_db.RegisterMessage(ElectorVote)
 
-CandidateVote = _reflection.GeneratedProtocolMessageType('CandidateVote', (_message.Message,), dict(
-  DESCRIPTOR = _CANDIDATEVOTE,
-  __module__ = 'types_pb2'
+CandidateVote = _reflection.GeneratedProtocolMessageType('CandidateVote', (_message.Message,), {
+  'DESCRIPTOR' : _CANDIDATEVOTE,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:CandidateVote)
-  ))
+  })
 _sym_db.RegisterMessage(CandidateVote)
 
-PublicKeysList = _reflection.GeneratedProtocolMessageType('PublicKeysList', (_message.Message,), dict(
-  DESCRIPTOR = _PUBLICKEYSLIST,
-  __module__ = 'types_pb2'
+PublicKeysList = _reflection.GeneratedProtocolMessageType('PublicKeysList', (_message.Message,), {
+  'DESCRIPTOR' : _PUBLICKEYSLIST,
+  '__module__' : 'types_pb2'
   # @@protoc_insertion_point(class_scope:PublicKeysList)
-  ))
+  })
 _sym_db.RegisterMessage(PublicKeysList)
+
+ContractDeploymentInput = _reflection.GeneratedProtocolMessageType('ContractDeploymentInput', (_message.Message,), {
+  'DESCRIPTOR' : _CONTRACTDEPLOYMENTINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:ContractDeploymentInput)
+  })
+_sym_db.RegisterMessage(ContractDeploymentInput)
+
+ContractUpdateInput = _reflection.GeneratedProtocolMessageType('ContractUpdateInput', (_message.Message,), {
+  'DESCRIPTOR' : _CONTRACTUPDATEINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:ContractUpdateInput)
+  })
+_sym_db.RegisterMessage(ContractUpdateInput)
+
+CrossChainTransferInput = _reflection.GeneratedProtocolMessageType('CrossChainTransferInput', (_message.Message,), {
+  'DESCRIPTOR' : _CROSSCHAINTRANSFERINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:CrossChainTransferInput)
+  })
+_sym_db.RegisterMessage(CrossChainTransferInput)
+
+MerklePath = _reflection.GeneratedProtocolMessageType('MerklePath', (_message.Message,), {
+  'DESCRIPTOR' : _MERKLEPATH,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:MerklePath)
+  })
+_sym_db.RegisterMessage(MerklePath)
+
+MerklePathNode = _reflection.GeneratedProtocolMessageType('MerklePathNode', (_message.Message,), {
+  'DESCRIPTOR' : _MERKLEPATHNODE,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:MerklePathNode)
+  })
+_sym_db.RegisterMessage(MerklePathNode)
+
+CrossChainReceiveTokenInput = _reflection.GeneratedProtocolMessageType('CrossChainReceiveTokenInput', (_message.Message,), {
+  'DESCRIPTOR' : _CROSSCHAINRECEIVETOKENINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:CrossChainReceiveTokenInput)
+  })
+_sym_db.RegisterMessage(CrossChainReceiveTokenInput)
+
+GetTokenInfoInput = _reflection.GeneratedProtocolMessageType('GetTokenInfoInput', (_message.Message,), {
+  'DESCRIPTOR' : _GETTOKENINFOINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:GetTokenInfoInput)
+  })
+_sym_db.RegisterMessage(GetTokenInfoInput)
+
+GetBalanceInput = _reflection.GeneratedProtocolMessageType('GetBalanceInput', (_message.Message,), {
+  'DESCRIPTOR' : _GETBALANCEINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:GetBalanceInput)
+  })
+_sym_db.RegisterMessage(GetBalanceInput)
+
+GetBalanceOutput = _reflection.GeneratedProtocolMessageType('GetBalanceOutput', (_message.Message,), {
+  'DESCRIPTOR' : _GETBALANCEOUTPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:GetBalanceOutput)
+  })
+_sym_db.RegisterMessage(GetBalanceOutput)
+
+IssueInput = _reflection.GeneratedProtocolMessageType('IssueInput', (_message.Message,), {
+  'DESCRIPTOR' : _ISSUEINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:IssueInput)
+  })
+_sym_db.RegisterMessage(IssueInput)
+
+TransferInput = _reflection.GeneratedProtocolMessageType('TransferInput', (_message.Message,), {
+  'DESCRIPTOR' : _TRANSFERINPUT,
+  '__module__' : 'types_pb2'
+  # @@protoc_insertion_point(class_scope:TransferInput)
+  })
+_sym_db.RegisterMessage(TransferInput)
 
 
 # @@protoc_insertion_point(module_scope)

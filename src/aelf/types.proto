@@ -3,7 +3,7 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 
 message StringInput {
-    string StringValue = 1;
+    string string_value = 1;
 }
 
 message MinerList {
@@ -11,21 +11,21 @@ message MinerList {
 }
 
 message Hash {
-    bytes Value = 1;
+    bytes value = 1;
 }
 
 message Address {
-    bytes Value = 1;
+    bytes value = 1;
 }
 
 message Transaction {
-    Address From = 1;
-    Address To = 2;
-    int64 RefBlockNumber = 3;
-    bytes RefBlockPrefix = 4;
-    string MethodName = 5;
-    bytes Params = 6;
-    bytes Signature = 10000;
+    Address from_address = 1;
+    Address to_address = 2;
+    int64 ref_block_number = 3;
+    bytes ref_block_prefix = 4;
+    string method_name = 5;
+    bytes params = 6;
+    bytes signature = 10000;
 }
 
 message ElectionVotingRecord {
@@ -63,4 +63,68 @@ message CandidateVote {
 
 message PublicKeysList {
     repeated bytes value = 1;
+}
+
+message ContractDeploymentInput {
+    sint32 category = 1;
+    bytes code = 2;
+}
+
+message ContractUpdateInput {
+    Address address = 1;
+    bytes code = 2;
+}
+
+message CrossChainTransferInput {
+    Address to = 1;
+    string symbol = 2;
+    sint64 amount = 3;
+    string memo = 4;
+    int32 to_chain_id = 5;
+    int32 issue_chain_id = 6;
+}
+
+message MerklePath {
+    repeated MerklePathNode merkle_path_nodes = 1;
+}
+
+message MerklePathNode{
+    Hash hash = 1;
+    bool is_left_child_node = 2;
+}
+
+message CrossChainReceiveTokenInput {
+    int32 from_chain_id = 1;
+    int64 parent_chain_height = 2;
+    bytes transfer_transaction_bytes = 3;
+    MerklePath merkle_path = 4;
+}
+
+message GetTokenInfoInput {
+    string symbol = 1;
+}
+
+message GetBalanceInput {
+    string symbol = 1;
+    Address owner = 2;
+}
+
+message GetBalanceOutput {
+    string symbol = 1;
+    Address owner = 2;
+    sint64 balance = 3;
+}
+
+message IssueInput {
+    string symbol = 1;
+    sint64 amount = 2;
+    string memo = 3;
+    Address to = 4;
+}
+
+message TransferInput {
+    Address to = 1;
+    string symbol = 2;
+    sint64 amount = 3;
+    string memo = 4;
 }

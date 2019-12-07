@@ -1,20 +1,23 @@
 import unittest
 from aelf import Transaction
-from aelf import AElf
+from aelf import AElf, AElfToolkit
 
 
 class AElfTest(unittest.TestCase):
-    _url = 'http://127.0.0.1:8000'
+    _url = 'http://192.168.197.42:8000'
     _private_key = 'b344570eb80043d7c5ae9800c813b8842660898bf03cbd41e583b4e54af4e7fa'
 
     def setUp(self):
         self.chain = AElf(self._url)
         self.chain_with_private_key = AElf(self._url, self._private_key)
+        self.toolkit = AElfToolkit(self._url, self._private_key)
 
     def test_chain_api(self):
         chain_status = self.chain.get_chain_status()
         print('# get_chain_status', chain_status)
         self.assertTrue(chain_status['BestChainHeight'] > 0)
+        chain_id = self.chain.get_chain_id()
+        print('# get_chain_id', chain_id)
 
     def test_block_api(self):
         block_height = self.chain.get_block_height()
@@ -69,12 +72,12 @@ class AElfTest(unittest.TestCase):
         current_height = self.chain.get_block_height()
         block = self.chain.get_block_by_height(current_height, include_transactions=False)
         transaction = Transaction()
-        transaction.From.CopyFrom(self.chain_with_private_key.get_from_address())
-        transaction.To.CopyFrom(self.chain_with_private_key.get_system_contract_address("AElf.ContractNames.Consensus"))
-        transaction.RefBlockNumber = current_height
-        transaction.RefBlockPrefix = bytes.fromhex(block['BlockHash'])[0:4]
-        transaction.MethodName = 'GetCurrentMinerList'
-        transaction.Signature = self.chain_with_private_key.sign(transaction.SerializeToString())
+        transaction.from_address.CopyFrom(self.chain_with_private_key.get_from_address())
+        transaction.to_address.CopyFrom(self.chain_with_private_key.get_system_contract_address("AElf.ContractNames.Consensus"))
+        transaction.ref_block_number = current_height
+        transaction.ref_block_prefix = bytes.fromhex(block['BlockHash'])[0:4]
+        transaction.method_name = 'GetCurrentMinerList'
+        transaction.signature = self.chain_with_private_key.sign(transaction.SerializeToString())
         result = self.chain_with_private_key.send_transaction(transaction.SerializePartialToString().hex())
         print('# send_transaction', result)
         self.assertTrue(result['TransactionId'] != "")
@@ -97,14 +100,17 @@ class AElfTest(unittest.TestCase):
         self.assertTrue(self.chain.add_peer('127.0.0.1:6801'))
 
     def test_miner_api(self):
-        miners = self.chain_with_private_key.get_current_miners()
+        balance = self.toolkit.get_balance('ELF', '28Y8JA1i2cN6oHvdv7EraXJr9a1gY6D1PpJXw9QtRMRwKcBQMK')
+        print('# get_balance', balance)
+
+        miners = self.toolkit.get_current_miners()
         self.assertTrue(len(miners) > 0)
-        print('# get_current_miners')
+        print('# get_current_miners', len(miners))
         for miner in miners:
             print('  > miner:', miner['public_key'], miner['address'])
 
-        candidates = self.chain_with_private_key.get_candidates()
-        print('# get_candidates')
+        candidates = self.toolkit.get_candidates()
+        print('# get_candidates', len(candidates))
         self.assertTrue(len(candidates) >= 0)
         for candidate in candidates:
             print('  > candidate:', candidate['public_key'], candidate['address'])

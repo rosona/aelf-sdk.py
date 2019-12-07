@@ -198,3 +198,4 @@ dmypy.json
 .idea
 aelf-sdk.py.iml
 
+.DS_Store

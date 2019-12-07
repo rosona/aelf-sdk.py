@@ -4,7 +4,7 @@ import base58
 import requests
 from coincurve import PrivateKey
 
-from aelf.types_pb2 import Transaction, Hash, Address, MinerList, StringInput, CandidateVote, PublicKeysList
+from aelf.types_pb2 import Transaction, Hash, Address
 
 
 class AElf(object):
@@ -204,31 +204,12 @@ class AElf(object):
         api = '%s/blockChain/merklePathByTransactionId?transactionId=%s' % (self._url, transaction_id)
         return requests.get(api, headers=self._get_request_header).json()
 
-    def get_current_miners(self):
-        """
-        Get current miners
-        :return: current miners
-        """
-        transaction = self._get_miners_transaction()
-        raw_miner_list = self.execute_transaction(transaction)
-
-        current_miners = []
-        miner_list = MinerList()
-        miner_list.ParseFromString(bytes.fromhex(raw_miner_list.decode()))
-        for miner in miner_list.public_keys:
-            address = self._get_from_address(miner)
-            current_miners.append({
-                'public_key': miner.hex(),
-                'address': base58.b58encode_check(address.Value)
-            })
-        return current_miners
-
     def get_from_address(self):
         """
         Get self from address
         :return: from address (Address object)
         """
-        return self._get_from_address(self._private_key.public_key.format(compressed=False))
+        return self.get_address_from_public_key(self._private_key.public_key.format(compressed=False))
 
     def get_from_address_string(self):
         """
@@ -236,7 +217,15 @@ class AElf(object):
         :return: from address string
         """
         address = self.get_from_address()
-        return base58.b58encode_check(address.Value).decode()
+        return base58.b58encode_check(address.value).decode()
+
+    def get_genesis_contract_address_string(self):
+        """
+        Get genesis contract address
+        :return: address
+        """
+        chain_status = self.get_chain_status()
+        return chain_status['GenesisContractAddress']
 
     def get_system_contract_address(self, contract_name):
         """
@@ -244,7 +233,11 @@ class AElf(object):
         :param contract_name: system contract name
         :return: contract address object
         """
-        transaction = self._get_contract_address_transaction(contract_name)
+        to_address_string = self.get_genesis_contract_address_string()
+        params = Hash()
+        params.value = hashlib.sha256(contract_name.encode('utf8')).digest()
+        transaction = self.build_transaction(to_address_string, 'GetContractAddressByName', params.SerializeToString())
+
         raw_address_hex = self.execute_transaction(transaction)
         to_address = Address()
         to_address.ParseFromString(bytes.fromhex(raw_address_hex.decode()))
@@ -257,43 +250,7 @@ class AElf(object):
         :return: contract address base58 string
         """
         to_address = self.get_system_contract_address(contract_name)
-        return base58.b58encode_check(to_address.Value).decode()
-
-    def get_candidates(self):
-        """
-        Get candidates
-        :return: candidates
-        """
-        candidates = []
-        transaction = self._get_candidates_transaction()
-        raw_candidates = self.execute_transaction(transaction)
-        public_key_list = PublicKeysList()
-        public_key_list.ParseFromString(bytes.fromhex(raw_candidates.decode()))
-        for public_key in public_key_list.value:
-            address = self._get_from_address(public_key)
-            candidates.append({
-                'public_key': public_key.hex(),
-                'address': base58.b58encode_check(address.Value)
-            })
-        return candidates
-
-    def get_vote_info(self, public_keys):
-        """
-        Get vote info
-        :param public_keys: public key for candidates/miners
-        :return:
-        """
-        vote_info = []
-        for public_key in public_keys:
-            transaction = self._get_candidate_vote_transaction(public_key)
-            raw_candidate_vote = self.execute_transaction(transaction)
-            candidate_vote = CandidateVote()
-            candidate_vote.ParseFromString(bytes.fromhex(raw_candidate_vote.decode()))
-            vote_info.append({
-                'obtained_active_voted_votes_amount': candidate_vote.obtained_active_voted_votes_amount,
-                'all_obtained_voted_votes_amount': candidate_vote.all_obtained_voted_votes_amount
-            })
-        return vote_info
+        return base58.b58encode_check(to_address.value).decode()
 
     def build_transaction(self, to_address, method_name, params=None):
         """
@@ -309,15 +266,21 @@ class AElf(object):
         best_chain_hash = chain_status['BestChainHash']
         best_chain_height = chain_status['BestChainHeight']
 
+        if not isinstance(to_address, Address):
+            to_address_string = to_address
+            to_address = Address()
+            to_address.value = base58.b58decode_check(to_address_string)
+
         transaction = Transaction()
-        transaction.From.CopyFrom(self._get_from_address(self._private_key.public_key.format(compressed=False)))
-        transaction.To.CopyFrom(to_address)
-        transaction.MethodName = method_name
+        public_key = self._private_key.public_key.format(compressed=False)
+        transaction.from_address.CopyFrom(self.get_address_from_public_key(public_key))
+        transaction.to_address.CopyFrom(to_address)
+        transaction.method_name = method_name
         if params is not None:
-            transaction.Params = params
-        transaction.RefBlockNumber = best_chain_height
-        transaction.RefBlockPrefix = bytes(bytearray.fromhex(best_chain_hash))
-        transaction.Signature = self.sign(transaction.SerializeToString())
+            transaction.params = params
+        transaction.ref_block_number = best_chain_height
+        transaction.ref_block_prefix = bytes(bytearray.fromhex(best_chain_hash)[:4])
+        transaction.signature = self.sign(transaction.SerializeToString())
         return transaction
 
     def sign(self, bytes_data):
@@ -328,58 +291,22 @@ class AElf(object):
         """
         return self._private_key.sign_recoverable(bytes_data)
 
-    def _get_genesis_contract_address(self):
-        """ get genesis contract address
-        """
-        response = requests.get('%s/blockchain/chainStatus' % self._url, headers=self._get_request_header)
-        chain_status = response.json()
-        genesis_contract_address = chain_status['GenesisContractAddress']
-        return genesis_contract_address
-
-    def _get_from_address(self, public_key):
+    @staticmethod
+    def get_address_from_public_key(public_key):
         """ get from address
         """
         address = Address()
         public_key_hash = hashlib.sha256()
         public_key_hash.update(hashlib.sha256(public_key).digest())
-        address.Value = public_key_hash.digest()
+        address.value = public_key_hash.digest()
         return address
 
-    def _get_contract_address_transaction(self, contract_name):
-        """ build get contract address transaction
+    def get_chain_id(self):
         """
-        to_address_bytes = base58.b58decode_check(self._get_genesis_contract_address())
-        to_address = Address()
-        to_address.Value = to_address_bytes
-        params = Hash()
-        params.Value = hashlib.sha256(contract_name.encode('utf8')).digest()
-        return self.build_transaction(to_address, 'GetContractAddressByName', params.SerializeToString())
-
-    def _get_candidates_transaction(self):
-        """ get candidates transaction
+        Get chain id
+        :return: chain id (int)
         """
-        transaction = self._get_contract_address_transaction('AElf.ContractNames.Election')
-        address = self.execute_transaction(transaction)
-        to_address = Address()
-        to_address.ParseFromString(bytes.fromhex(address.decode()))
-        return self.build_transaction(to_address, 'GetCandidates')
-
-    def _get_candidate_vote_transaction(self, block_producer):
-        """ get candidate vote transaction
-        """
-        transaction = self._get_contract_address_transaction('AElf.ContractNames.Election')
-        address = self.execute_transaction(transaction)
-        to_address = Address()
-        to_address.ParseFromString(bytes.fromhex(address.decode()))
-        params = StringInput()
-        params.StringValue = block_producer
-        return self.build_transaction(to_address, 'GetCandidateVote', params.SerializeToString())
-
-    def _get_miners_transaction(self):
-        """ build get miners transaction
-        """
-        transaction = self._get_contract_address_transaction('AElf.ContractNames.Consensus')
-        raw_address_hex = self.execute_transaction(transaction)
-        to_address = Address()
-        to_address.ParseFromString(bytes.fromhex(raw_address_hex.decode()))
-        return self.build_transaction(to_address, 'GetCurrentMinerList')
+        chain_status = self.get_chain_status()
+        chain_id = chain_status['ChainId']
+        chain_id_bytes = base58.b58decode(chain_id)
+        return int.from_bytes(chain_id_bytes, byteorder='little')
