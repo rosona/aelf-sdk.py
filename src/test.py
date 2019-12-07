@@ -1,15 +1,21 @@
 import unittest
+
+from coincurve import PrivateKey
+
 from aelf import Transaction
 from aelf import AElf, AElfToolkit
 
 
 class AElfTest(unittest.TestCase):
     _url = 'http://192.168.197.42:8000'
-    _private_key = 'b344570eb80043d7c5ae9800c813b8842660898bf03cbd41e583b4e54af4e7fa'
+    _private_key = None
+    _public_key = None
 
     def setUp(self):
+        private_key_string = 'b344570eb80043d7c5ae9800c813b8842660898bf03cbd41e583b4e54af4e7fa'
+        self._private_key = PrivateKey(bytes(bytearray.fromhex(private_key_string)))
+        self._public_key = self._private_key.public_key.format(compressed=False)
         self.chain = AElf(self._url)
-        self.chain_with_private_key = AElf(self._url, self._private_key)
         self.toolkit = AElfToolkit(self._url, self._private_key)
 
     def test_chain_api(self):
@@ -44,21 +50,21 @@ class AElfTest(unittest.TestCase):
 
     def test_raw_transaction_api(self):
         transaction = {
-            "From": self.chain_with_private_key.get_from_address_string(),
-            "To": self.chain_with_private_key.get_system_contract_address_string("AElf.ContractNames.Consensus"),
+            "From": self.chain.get_address_string_from_public_key(self._public_key),
+            "To": self.chain.get_system_contract_address_string("AElf.ContractNames.Consensus"),
             "RefBlockNumber": 0,
             "RefBlockHash": "b344570eb80043d7c5ae9800c813b8842660898bf03cbd41e583b4e54af4e7fa",
             "MethodName": "GetCurrentMinerList",
             "Params": '{}'
         }
-        raw_transaction = self.chain_with_private_key.create_raw_transaction(transaction)
-        signature = self.chain_with_private_key.sign(bytes.fromhex(raw_transaction['RawTransaction']))
+        raw_transaction = self.chain.create_raw_transaction(transaction)
+        signature = self._private_key.sign_recoverable(bytes.fromhex(raw_transaction['RawTransaction']))
         transaction_1 = {
             "RawTransaction": raw_transaction['RawTransaction'],
             "Signature": signature.hex()
         }
         # test execute_raw_transaction
-        print('# execute_raw_transaction', self.chain_with_private_key.execute_raw_transaction(transaction_1))
+        print('# execute_raw_transaction', self.chain.execute_raw_transaction(transaction_1))
 
         # test send_raw_transaction
         transaction_2 = {
@@ -66,19 +72,18 @@ class AElfTest(unittest.TestCase):
             'Signature': signature.hex(),
             'ReturnTransaction': True
         }
-        print('# send_raw_transaction', self.chain_with_private_key.send_raw_transaction(transaction_2))
+        print('# send_raw_transaction', self.chain.send_raw_transaction(transaction_2))
 
     def test_send_transaction_api(self):
         current_height = self.chain.get_block_height()
         block = self.chain.get_block_by_height(current_height, include_transactions=False)
         transaction = Transaction()
-        transaction.from_address.CopyFrom(self.chain_with_private_key.get_from_address())
-        transaction.to_address.CopyFrom(self.chain_with_private_key.get_system_contract_address("AElf.ContractNames.Consensus"))
+        transaction.to_address.CopyFrom(self.chain.get_system_contract_address("AElf.ContractNames.Consensus"))
         transaction.ref_block_number = current_height
         transaction.ref_block_prefix = bytes.fromhex(block['BlockHash'])[0:4]
         transaction.method_name = 'GetCurrentMinerList'
-        transaction.signature = self.chain_with_private_key.sign(transaction.SerializeToString())
-        result = self.chain_with_private_key.send_transaction(transaction.SerializePartialToString().hex())
+        transaction = self.chain.sign_transaction(self._private_key, transaction)
+        result = self.chain.send_transaction(transaction.SerializePartialToString().hex())
         print('# send_transaction', result)
         self.assertTrue(result['TransactionId'] != "")
 
@@ -114,6 +119,15 @@ class AElfTest(unittest.TestCase):
         self.assertTrue(len(candidates) >= 0)
         for candidate in candidates:
             print('  > candidate:', candidate['public_key'], candidate['address'])
+
+    def test_helpers(self):
+        is_connected = self.chain.is_connected()
+        self.assertTrue(is_connected)
+
+        address = self.chain.get_system_contract_address("AElf.ContractNames.Consensus")
+        formatted_address = self.chain.get_formatted_address(address)
+        print('formatted address', formatted_address)
+        self.assertIsNotNone(formatted_address)
 
 
 if __name__ == '__main__':

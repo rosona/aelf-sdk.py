@@ -9,36 +9,39 @@ from aelf.types_pb2 import MinerList, StringInput, CandidateVote, PublicKeysList
 class AElfToolkit(object):
 
     def __init__(self, url, private_key, version=None):
-        self.aelf = AElf(url, private_key, version)
+        self._private_key = private_key
+        self.aelf = AElf(url, version)
 
-    def deploy_contract(self, contract_bytes):
+    def deploy_contract(self, deploy_contract_bytes):
         """
         Deploy smart contract
-        :param contract_bytes: contract bytes
+        :param deploy_contract_bytes: contract bytes
         :return: deployed address
         """
         contract_deployment_input = ContractDeploymentInput()
-        contract_deployment_input.code = contract_bytes
+        contract_deployment_input.code = deploy_contract_bytes
         contract_deployment_input.category = 3
 
         genesis_contract_address = self.aelf.get_genesis_contract_address_string()
-        transaction = self.aelf.build_transaction(genesis_contract_address, 'DeploySmartContract',
-                                                  contract_deployment_input.SerializeToString())
+        transaction = self.aelf.create_transaction(genesis_contract_address, 'DeploySmartContract',
+                                                   contract_deployment_input.SerializeToString())
+        transaction = self.aelf.sign_transaction(self._private_key, transaction)
         return self.aelf.send_transaction(transaction)
 
-    def update_contract(self, contract_address, contract_bytes):
+    def update_contract(self, contract_address, update_contract_bytes):
         """
         Update smart contract
         :param contract_address: contract update address
-        :param contract_bytes: contract bytes
+        :param update_contract_bytes: contract bytes
         :return: updated address
         """
         contract_update_input = ContractUpdateInput()
-        contract_update_input.code = contract_bytes
+        contract_update_input.code = update_contract_bytes
         contract_update_input.category = 3
         genesis_contract_address = self.aelf.get_genesis_contract_address_string()
-        transaction = self.aelf.build_transaction(genesis_contract_address, 'DeploySmartContract',
-                                                  contract_update_input.SerializeToString())
+        transaction = self._create_and_sign_transaction(genesis_contract_address, 'DeploySmartContract',
+                                                        contract_update_input)
+        transaction = self.aelf.sign_transaction(self._private_key, transaction)
         return self.aelf.send_transaction(transaction)
 
     def transfer(self, to_address_string, symbol, amount, memo):
@@ -56,8 +59,7 @@ class AElfToolkit(object):
         transfer_input.amount = amount
         transfer_input.memo = memo
         multi_token_contract_address = self.aelf.get_system_contract_address('AElf.ContractNames.Token')
-        transaction = self.aelf.build_transaction(multi_token_contract_address, 'Transfer',
-                                                  transfer_input.SerializeToString())
+        transaction = self._create_and_sign_transaction(multi_token_contract_address, 'Transfer', transfer_input)
         return self.aelf.execute_transaction(transaction)
 
     def cross_chain_transfer(self, to_address_string, symbol, amount, memo, to_chain_id):
@@ -78,8 +80,8 @@ class AElfToolkit(object):
         cross_chain_transfer_input.to_chain_id = to_chain_id
         cross_chain_transfer_input.issue_chain_id = self.aelf.get_chain_id()
         multi_token_contract_address = self.aelf.get_system_contract_address('AElf.ContractNames.Token')
-        transaction = self.aelf.build_transaction(multi_token_contract_address, 'CrossChainTransfer',
-                                                  cross_chain_transfer_input.SerializeToString())
+        transaction = self._create_and_sign_transaction(multi_token_contract_address, 'CrossChainTransfer',
+                                                        cross_chain_transfer_input)
         return self.aelf.execute_transaction(transaction)
 
     def cross_chain_receive(self, from_chain_id, parent_chain_height, transfer_transaction_bytes, merkle_path):
@@ -87,6 +89,7 @@ class AElfToolkit(object):
         cross_chain_receive_token_input.from_chain_id = from_chain_id
         cross_chain_receive_token_input.parent_chain_height = parent_chain_height
         cross_chain_receive_token_input.transfer_transaction_bytes = transfer_transaction_bytes
+        raise NotImplementedError()
 
     def get_balance(self, symbol, address):
         """
@@ -99,36 +102,35 @@ class AElfToolkit(object):
         get_balance_input.symbol = symbol
         get_balance_input.owner.value = base58.b58decode_check(address)
         multi_token_contract_address = self.aelf.get_system_contract_address('AElf.ContractNames.Token')
-        transaction = self.aelf.build_transaction(multi_token_contract_address, 'GetBalance',
-                                                  get_balance_input.SerializeToString())
+        transaction = self._create_and_sign_transaction(multi_token_contract_address, 'GetBalance', get_balance_input)
         balance = self.aelf.execute_transaction(transaction)
         get_balance_output = GetBalanceOutput()
         get_balance_output.ParseFromString(bytes.fromhex(balance.decode()))
         return get_balance_output.balance
 
     def buy_resource(self):
-        pass
+        raise NotImplementedError()
 
     def sell_resource(self):
-        pass
+        raise NotImplementedError()
 
     def vote(self):
-        pass
+        raise NotImplementedError()
 
     def change_vote_option(self):
-        pass
+        raise NotImplementedError()
 
     def vote_withdraw(self):
-        pass
+        raise NotImplementedError()
 
     def create_propose(self):
-        pass
+        raise NotImplementedError()
 
     def approve_propose(self):
-        pass
+        raise NotImplementedError()
 
     def release_propose(self):
-        pass
+        raise NotImplementedError()
 
     def get_current_miners(self):
         """
@@ -136,7 +138,7 @@ class AElfToolkit(object):
         :return: current miners
         """
         consensus_contract_address = self.aelf.get_system_contract_address('AElf.ContractNames.Consensus')
-        transaction = self.aelf.build_transaction(consensus_contract_address, 'GetCurrentMinerList')
+        transaction = self._create_and_sign_transaction(consensus_contract_address, 'GetCurrentMinerList')
         raw_miner_list = self.aelf.execute_transaction(transaction)
 
         current_miners = []
@@ -153,7 +155,7 @@ class AElfToolkit(object):
         :return: candidates
         """
         election_contract_address = self.aelf.get_system_contract_address('AElf.ContractNames.Election')
-        transaction = self.aelf.build_transaction(election_contract_address, 'GetCandidates')
+        transaction = self._create_and_sign_transaction(election_contract_address, 'GetCandidates')
         raw_candidates = self.aelf.execute_transaction(transaction)
 
         candidates = []
@@ -175,8 +177,7 @@ class AElfToolkit(object):
             election_contract_address = self.aelf.get_system_contract_address('AElf.ContractNames.Election')
             params = StringInput()
             params.string_value = public_key
-            transaction = self.aelf.build_transaction(election_contract_address, 'GetCandidateVote',
-                                                      params.SerializeToString())
+            transaction = self._create_and_sign_transaction(election_contract_address, 'GetCandidateVote', params)
             raw_candidate_vote = self.aelf.execute_transaction(transaction)
             candidate_vote = CandidateVote()
             candidate_vote.ParseFromString(bytes.fromhex(raw_candidate_vote.decode()))
@@ -186,9 +187,16 @@ class AElfToolkit(object):
             })
         return vote_info
 
+    def _create_and_sign_transaction(self, to_address, method_name, params=None):
+        if params is not None:
+            transaction = self.aelf.create_transaction(to_address, method_name, params.SerializeToString())
+        else:
+            transaction = self.aelf.create_transaction(to_address, method_name)
+        return self.aelf.sign_transaction(self._private_key, transaction)
+
     def _build_node_info(self, public_key):
-        address = self.aelf.get_address_from_public_key(public_key)
+        address = self.aelf.get_address_string_from_public_key(public_key)
         return {
             'public_key': public_key.hex(),
-            'address': base58.b58encode_check(address.value)
+            'address': address
         }

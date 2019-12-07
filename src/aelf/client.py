@@ -3,6 +3,7 @@ import hashlib
 import base58
 import requests
 from coincurve import PrivateKey
+from google.protobuf.wrappers_pb2 import StringValue
 
 from aelf.types_pb2 import Transaction, Hash, Address
 
@@ -10,15 +11,13 @@ from aelf.types_pb2 import Transaction, Hash, Address
 class AElf(object):
     _get_request_header = None
     _post_request_header = None
-
     _url = None
-    _private_key = None
     _version = None
 
-    def __init__(self, url='http://127.0.0.1:8000', private_key=None, version=None):
+    _private_key = 'b344570eb80043d7c5ae9800c813b8842660898bf03cbd41e583b4e54af4e7fa'
+
+    def __init__(self, url='http://127.0.0.1:8000', version=None):
         self._url = '%s/api' % url
-        if private_key is not None:
-            self._private_key = PrivateKey(bytes(bytearray.fromhex(private_key)))
 
         version = '' if version is None else ';v=%s' % version
         self._post_request_header = {'Content-Type': 'application/json' + version}
@@ -204,21 +203,6 @@ class AElf(object):
         api = '%s/blockChain/merklePathByTransactionId?transactionId=%s' % (self._url, transaction_id)
         return requests.get(api, headers=self._get_request_header).json()
 
-    def get_from_address(self):
-        """
-        Get self from address
-        :return: from address (Address object)
-        """
-        return self.get_address_from_public_key(self._private_key.public_key.format(compressed=False))
-
-    def get_from_address_string(self):
-        """
-        Get self from address string
-        :return: from address string
-        """
-        address = self.get_from_address()
-        return base58.b58encode_check(address.value).decode()
-
     def get_genesis_contract_address_string(self):
         """
         Get genesis contract address
@@ -236,8 +220,8 @@ class AElf(object):
         to_address_string = self.get_genesis_contract_address_string()
         params = Hash()
         params.value = hashlib.sha256(contract_name.encode('utf8')).digest()
-        transaction = self.build_transaction(to_address_string, 'GetContractAddressByName', params.SerializeToString())
-
+        transaction = self.create_transaction(to_address_string, 'GetContractAddressByName', params.SerializeToString())
+        transaction = self.sign_transaction(self._private_key, transaction)
         raw_address_hex = self.execute_transaction(transaction)
         to_address = Address()
         to_address.ParseFromString(bytes.fromhex(raw_address_hex.decode()))
@@ -252,16 +236,14 @@ class AElf(object):
         to_address = self.get_system_contract_address(contract_name)
         return base58.b58encode_check(to_address.value).decode()
 
-    def build_transaction(self, to_address, method_name, params=None):
+    def create_transaction(self, to_address, method_name, params=None):
         """
-        Build transaction
+        Create transaction
         :param to_address: to address
         :param method_name: method name
         :param params: params for method
         :return: transaction object
         """
-        assert self._private_key is not None, 'To execute transaction, please initialize AElf with private key.'
-
         chain_status = self.get_chain_status()
         best_chain_hash = chain_status['BestChainHash']
         best_chain_height = chain_status['BestChainHeight']
@@ -272,34 +254,50 @@ class AElf(object):
             to_address.value = base58.b58decode_check(to_address_string)
 
         transaction = Transaction()
-        public_key = self._private_key.public_key.format(compressed=False)
-        transaction.from_address.CopyFrom(self.get_address_from_public_key(public_key))
         transaction.to_address.CopyFrom(to_address)
         transaction.method_name = method_name
         if params is not None:
             transaction.params = params
         transaction.ref_block_number = best_chain_height
         transaction.ref_block_prefix = bytes(bytearray.fromhex(best_chain_hash)[:4])
-        transaction.signature = self.sign(transaction.SerializeToString())
         return transaction
 
-    def sign(self, bytes_data):
+    def sign_transaction(self, private_key, transaction):
         """
         Sign
-        :param bytes_data: the data need sign
-        :return: the signed data
+        :param private_key: private key
+        :param transaction: transaction
+        :return: the signed transaction
         """
-        return self._private_key.sign_recoverable(bytes_data)
+        assert isinstance(transaction, Transaction), 'Invalid transaction'
+        if isinstance(private_key, str):
+            private_key = bytes(bytearray.fromhex(private_key))
+        if isinstance(private_key, bytes):
+            private_key = PrivateKey(private_key)
+        public_key = private_key.public_key.format(compressed=False)
+        transaction.from_address.CopyFrom(self.get_address_from_public_key(public_key))
+        transaction.signature = private_key.sign_recoverable(transaction.SerializeToString())
+        return transaction
 
     @staticmethod
     def get_address_from_public_key(public_key):
-        """ get from address
+        """ get address from public key
         """
         address = Address()
         public_key_hash = hashlib.sha256()
         public_key_hash.update(hashlib.sha256(public_key).digest())
         address.value = public_key_hash.digest()
         return address
+
+    @staticmethod
+    def get_address_string_from_public_key(public_key):
+        """ get address string from public key
+        """
+        address = Address()
+        public_key_hash = hashlib.sha256()
+        public_key_hash.update(hashlib.sha256(public_key).digest())
+        address.value = public_key_hash.digest()
+        return base58.b58encode_check(address.value).decode()
 
     def get_chain_id(self):
         """
@@ -310,3 +308,32 @@ class AElf(object):
         chain_id = chain_status['ChainId']
         chain_id_bytes = base58.b58decode(chain_id)
         return int.from_bytes(chain_id_bytes, byteorder='little')
+
+    def get_formatted_address(self, address):
+        """
+        Get formatted address
+        :param address: address
+        :return: the formatted address
+        """
+        if isinstance(address, Address):
+            address = base58.b58encode_check(address.value).decode()
+
+        token_contract_address = self.get_system_contract_address('AElf.ContractNames.Token')
+        transaction = self.create_transaction(token_contract_address, 'GetPrimaryTokenSymbol')
+        transaction = self.sign_transaction(self._private_key, transaction)
+        raw_symbol = self.execute_transaction(transaction)
+        symbol = StringValue()
+        symbol.ParseFromString(bytes.fromhex(raw_symbol.decode()))
+
+        chain_status = self.get_chain_status()
+        return '%s_%s_%s' % (symbol.value, address, chain_status['ChainId'])
+
+    def is_connected(self):
+        """
+        Check connection
+        """
+        try:
+            self.get_chain_status()
+        except:
+            return False
+        return True
